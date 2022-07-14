@@ -3,23 +3,14 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 import com.keysolutions.ddpclient.DDPClient;
 import main.java.HomeGateway.DHomeDevice.DHome;
 import main.java.HomeGateway.DHomeDevice.MethodParam.DataSubscription;
-import main.java.HomeGateway.DHomeDevice.MethodParam.com;
+import main.java.HomeGateway.DHomeDevice.MethodParam.Com;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.logging.Logger;
 
 public class DHomeConnection {
     private DDPClient ddpClient;
     public DHomeConnection() {
     }
-
-//    public DHomeConnection(DDPClient ddpClient) {
-//        this.ddpClient = ddpClient;
-//    }
 
     public DDPClient getDdpClient() {
         return this.ddpClient;
@@ -30,7 +21,7 @@ public class DHomeConnection {
         ddpClient.addObserver(obs);
         ddpClient.connect();
         Thread.sleep(500);
-        System.out.println(ddpClient.getState() + " to DHome server " + dhome.getHost() + ":" + dhome.getDdpPort());
+        System.out.println(ddpClient.getState() + " to controller server " + dhome.getHost() + ":" + dhome.getDdpPort());
     }
 
     public void disconnectDDP() {
@@ -51,9 +42,13 @@ public class DHomeConnection {
         return ddpClient.subscribe("data", dataSubscription, obs);
     }
 
-    public void unsubscribed(int subId, DHomeClientObserver obs) {
+    public void unsubscribe(DHomeClientObserver obs) {
         System.out.println("Unsubscribed to DHome data");
         ddpClient.unsubscribe(this.subscribe(obs));
     }
-
+    public void turnOn (Integer id){
+        Object[] param = new Object[1];
+        param[0] = new Com(id, "on");
+        getDdpClient().call("com", param);
+    }
 }

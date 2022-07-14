@@ -10,8 +10,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="HomeGateway" />
         <module name="HomeGateway_2" />
+        <module name="HomeGateway" />
       </profile>
     </annotationProcessing>
   </component>

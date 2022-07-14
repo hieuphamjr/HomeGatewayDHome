@@ -20,8 +20,7 @@ public class CheckReliable {
     }
 
     public synchronized String getDeviceReceive(String device) {
-        String timeString = CheckReceivePacket.get(device);
-        return timeString;
+        return CheckReceivePacket.get(device);
     }
 
     public synchronized void removeDevicePacket(String device) {
@@ -37,8 +36,7 @@ public class CheckReliable {
     }
 
     public synchronized String getDeviceStatus(String device) {
-        String timeString = CheckMessageCommand.get(device);
-        return timeString;
+        return CheckMessageCommand.get(device);
     }
 
     public synchronized void removeDeviceCommand(String device) {
@@ -54,8 +52,7 @@ public class CheckReliable {
     }
 
     public synchronized String getMAC(String IP) {
-        String mac = CheckMessageCommand.get(IP);
-        return mac;
+        return CheckMessageCommand.get(IP);
     }
 
 }

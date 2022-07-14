@@ -1,15 +1,8 @@
 package main.java.HomeGateway.MqttBroker;
 
-import main.java.HomeGateway.EchonteLite.EchonetLiteController;
 import org.eclipse.paho.client.mqttv3.*;
 
 public class DataTransfer {
-    private TopicDevices topicDevices;
-
-    public DataTransfer(TopicDevices topicDevices) {
-        this.topicDevices = topicDevices;
-    }
-
     public DataTransfer() {
 
     }
@@ -22,12 +15,14 @@ public class DataTransfer {
             }
             @Override
             public void connectionLost(Throwable cause) {
-                System.out.println("MQTT subcriber error: Lost MQTT Connection" + cause.getMessage());
+                System.out.println("MQTT subscriber error: Lost MQTT Connection" + cause.getMessage());
             }
             @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                AnalyzeMessage analyzeMessage = new AnalyzeMessage(topic, mqttMessage, topicDevices);
-                analyzeMessage.start();
+            public void messageArrived(String topic, MqttMessage mqttMessage) {
+                System.out.println("topic" + mqttMessage);
+                if (topic.equals("testtopic/s")) {
+
+                }
             }
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
@@ -39,15 +34,15 @@ public class DataTransfer {
         myClient.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-                System.out.println("MQTT subcriber error: Lost MQTT Connection" + cause.getMessage());
+                System.out.println("MQTT subscriber error: Lost MQTT Connection" + cause.getMessage());
                 System.out.println("msg "+ cause.getMessage());
                 System.out.println("loc "+ cause.getLocalizedMessage());
                 System.out.println("cause "+ cause.getCause());
-                System.out.println("excep "+ cause);
+                System.out.println("except "+ cause);
             }
 
             @Override
-            public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+            public void messageArrived(String s, MqttMessage mqttMessage) {
 
             }
 

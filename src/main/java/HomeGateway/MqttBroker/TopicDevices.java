@@ -6,10 +6,8 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-import java.lang.Integer;
 
 public class TopicDevices {
 //    File f = new File(path);
@@ -18,8 +16,8 @@ public class TopicDevices {
     private String path = "src/data/TopicDevices.txt";
     public ArrayList<DeviceObject> myDevices = new ArrayList<>();
     private static ConcurrentHashMap<String, String> TopicForDevice = new ConcurrentHashMap<>();
-    private static ArrayList<String> topicSubcribe = new ArrayList<String>();
-    private static ArrayList<String> checkDevice = new ArrayList<String>();
+    private static ArrayList<String> topicSubscribe = new ArrayList<>();
+    private static ArrayList<String> checkDevice = new ArrayList<>();
     private File topicFile = new File(path);
     private String[] devices;
     private String[] topicForDevice;
@@ -32,7 +30,7 @@ public class TopicDevices {
                 Scanner scanFile = new Scanner(fis);
                 while(scanFile.hasNextLine()) {
                     String[] splitTopic = scanFile.nextLine().split("~");
-                    topicSubcribe.add(splitTopic[1] + "/command");
+                    topicSubscribe.add(splitTopic[1] + "/command");
                     TopicForDevice.put(splitTopic[0], splitTopic[1]);
                     TopicForDevice.put(splitTopic[1], splitTopic[0]);
                 }
@@ -46,7 +44,7 @@ public class TopicDevices {
 
     public void addTopicNewDevice(String MAC, String groupCode, String classCode, String instanceCode, String topic) {
         String device = MAC + "/" + groupCode + "/" + classCode + "/" + instanceCode;
-        topicSubcribe.add(topic + "/command");
+        topicSubscribe.add(topic + "/command");
         TopicForDevice.put(device, topic);
         TopicForDevice.put(topic, device);
         topicFile.getParentFile().mkdirs();
@@ -74,14 +72,11 @@ public class TopicDevices {
     //Check device's topic in database
     public boolean checkTopicForDevice(String MAC, byte groupCode, byte classCode, byte instanceCode) {
         String device = MAC + "/" + groupCode + "/" + classCode + "/" + instanceCode;
-        boolean isExistMAC = TopicForDevice.containsKey(device);
-        if (isExistMAC) {
-            return true;
-        } else return false;
+        return TopicForDevice.containsKey(device);
     }
 
-    public static ArrayList<String> getTopicSubcribe() {
-        return topicSubcribe;
+    public static ArrayList<String> getTopicSubscribe() {
+        return topicSubscribe;
     }
 
     public String registerDeviceTopic() {
@@ -114,9 +109,6 @@ public class TopicDevices {
 
     public boolean checkDeviceRegister(String MAC, byte groupCode, byte classCode, byte instanceCode) {
         String device = MAC + "/" + groupCode + "/" + classCode + "/" + instanceCode;
-        boolean isSend = checkDevice.contains(device);
-        if (isSend) {
-            return true;
-        } else return false;
+        return checkDevice.contains(device);
     }
 }

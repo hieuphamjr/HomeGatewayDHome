@@ -4,7 +4,7 @@ import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.sensor.IlluminanceSensor;
-import main.java.Extensions.Extentions;
+import main.java.Extensions.Extensions;
 import main.java.HomeGateway.EchonteLite.CheckReliable;
 import main.java.HomeGateway.EchonteLite.TimeRequest;
 import main.java.HomeGateway.MqttBroker.DataTransfer;
@@ -14,8 +14,6 @@ import main.java.HomeGateway.Payload.IlluminancePayload;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -66,9 +64,9 @@ public class IlluminanceProcess {
                     return;
                 }
                 try {
-                    illuSensor.setIlluminanceValue(Extentions.ConvertByteToInt(property.edt));
+                    illuSensor.setIlluminanceValue(Extensions.ConvertByteToInt(property.edt));
 
-                    System.out.println(Extentions.ConvertByteToInt(property.edt));
+                    System.out.println(Extensions.ConvertByteToInt(property.edt));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

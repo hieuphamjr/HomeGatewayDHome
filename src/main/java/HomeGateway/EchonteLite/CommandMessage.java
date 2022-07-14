@@ -1,15 +1,11 @@
 package main.java.HomeGateway.EchonteLite;
 
-import com.sonycsl.echo.EchoFrame;
-import com.sonycsl.echo.EchoProperty;
-import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
-import main.java.Extensions.Extentions;
+import main.java.Extensions.Extensions;
 import main.java.HomeGateway.MqttBroker.TopicDevices;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,9 +35,9 @@ public class CommandMessage {
             for (DeviceObject devices: topicDevices.myDevices) {
 
                 if (devices.getMacAddress().equals(MAC)
-                        && Extentions.ConvertByteToI(devices.getClassGroupCode()) == Extentions.ConvertStringToInt(groupCode)
-                        && Extentions.ConvertByteToI(devices.getClassCode()) == Extentions.ConvertStringToInt(classCode)
-                        && Extentions.ConvertByteToI(devices.getInstanceCode()) == Extentions.ConvertStringToInt(instanceCode)) {
+                        && Extensions.ConvertByteToInt(devices.getClassGroupCode()) == Extensions.ConvertStringToInt(groupCode)
+                        && Extensions.ConvertByteToInt(devices.getClassCode()) == Extensions.ConvertStringToInt(classCode)
+                        && Extensions.ConvertByteToInt(devices.getInstanceCode()) == Extensions.ConvertStringToInt(instanceCode)) {
                     String messageParse = message.replaceAll("\\\\", "" );
                     JSONParser cmdMessage = new JSONParser();
                     JSONObject objCmdMessage = (JSONObject) cmdMessage.parse(messageParse.substring(1, messageParse.length()-1));

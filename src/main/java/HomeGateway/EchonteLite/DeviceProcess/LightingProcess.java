@@ -4,20 +4,16 @@ import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.housingfacilities.GeneralLighting;
-import main.java.Extensions.Extentions;
+import main.java.Extensions.Extensions;
 import main.java.HomeGateway.EchonteLite.CheckReliable;
-import main.java.HomeGateway.EchonteLite.CommandMessage;
 import main.java.HomeGateway.EchonteLite.TimeRequest;
 import main.java.HomeGateway.MqttBroker.DataTransfer;
 import main.java.HomeGateway.MqttBroker.MqttConnection;
 import main.java.HomeGateway.MqttBroker.TopicDevices;
 import main.java.HomeGateway.Payload.LightingDevicePayload;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -68,7 +64,7 @@ public class LightingProcess {
                     return;
                 }
                 try {
-                    lightingPayload.setLightingValue(Extentions.ConvertByteToInt(property.edt));
+                    lightingPayload.setLightingValue(Extensions.ConvertByteToInt(property.edt));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -100,7 +96,7 @@ public class LightingProcess {
                                         device.getClassCode(), device.getInstanceCode()) + "/data", lightingPayload.getMessage());
                         countPayload ++;
                         //System.out.println("Payload Lighting Device: " + tid + " ---> " + "Device: " + dev +
-                              //      " --- " + "Time: " + Extentions.ConvertDateToString(Calendar.getInstance()));
+                              //      " --- " + "Time: " + Extensions.ConvertDateToString(Calendar.getInstance()));
                     } else {
                         //System.out.println("Class Code: " + device.getClassCode());
                         //send request to register new device to MQTT Broker

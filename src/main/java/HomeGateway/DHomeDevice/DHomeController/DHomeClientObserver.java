@@ -3,9 +3,10 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 import com.keysolutions.ddpclient.DDPClient;
 import com.keysolutions.ddpclient.DDPListener;
 
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.logging.Logger;
+
+import static main.java.Extensions.Extensions.dumpMap;
 
 /**
  * @author Hieu
@@ -39,7 +40,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
 
     public DHomeClientObserver() {
         mDdpState = DDPSTATE.Disconnected;
-        mCollections = new HashMap<String, Map<String, Object>>();
+        mCollections = new HashMap<>();
     }
 
     @Override
@@ -95,15 +96,15 @@ public class DHomeClientObserver extends DDPListener implements Observer {
             if (msgtype.equals(DDPClient.DdpMessageType.ADDED)) {
                 String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
                 if (!mCollections.containsKey(collName)) {
-                    // add new collection
-                    System.out.println("Added collection " + collName);
-                    mCollections.put(collName, new HashMap<String, Object>());
+//                    // add new collection
+//                    System.out.println("Added collection " + collName);
+                    mCollections.put(collName, new HashMap<>());
                 }
                 Map<String, Object> collection = mCollections.get(collName);
                 String id = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-                System.out.println("Added " + collName + id + " to collection " + collName);
+//                System.out.println("Added " + collName + id + " to collection " + collName);
                 collection.put(id, jsonFields.get(DDPClient.DdpMessageField.FIELDS));
-                dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
+//                dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
             }
             if (msgtype.equals(DDPClient.DdpMessageType.REMOVED)) {
                 String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
@@ -111,7 +112,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
                     // remove IDs from collection
                     Map<String, Object> collection = mCollections.get(collName);
                     String docId = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-                    LOGGER.fine("Removed doc: " + collName + docId);
+//                    LOGGER.fine("Removed doc: " + collName + docId);
                     collection.remove(docId);
                 } else {
                     LOGGER.warning("Received invalid removed msg for collection " + collName);
@@ -137,25 +138,17 @@ public class DHomeClientObserver extends DDPListener implements Observer {
                         List<String> clearfields = ((List<String>) jsonFields.get(DDPClient.DdpMessageField.CLEARED));
                         if (clearfields != null) {
                             for (String fieldname : clearfields) {
-                                if (doc.containsKey(fieldname)) {
-                                    doc.remove(fieldname);
-                                }
+                                doc.remove(fieldname);
                             }
                         }
                     }
-                    System.out.println(collName + docId + " changed");
-                    dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
+//                    System.out.println(collName + docId + " changed");
+//                    dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
                 } else {
                     LOGGER.warning("Received invalid changed msg for collection " + collName);
                 }
             }
         }
-    }
-    public static void dumpMap(Map<String, Object> result) {
-        for (String key : result.keySet()) {
-            System.out.println(key + ": " + result.get(key).toString());
-        }
-        System.out.println("++++++++++");
     }
 }
 

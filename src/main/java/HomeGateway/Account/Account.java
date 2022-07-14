@@ -12,8 +12,7 @@ public class Account {
     public ArrayList<String> getInforAccount() {
         try {
             File f = new File(path);
-            ArrayList<String> infor = (ArrayList<String>) Files.readAllLines(f.toPath());
-            return infor;
+            return (ArrayList<String>) Files.readAllLines(f.toPath());
         } catch (Exception e) {
             e.printStackTrace();
             return null;

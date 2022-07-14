@@ -1,7 +1,7 @@
 package main.java.HomeGateway.EchonteLite;
 
 import com.sonycsl.echo.EchoSocket;
-import main.java.Extensions.Extentions;
+import main.java.Extensions.Extensions;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -15,7 +15,7 @@ public class UDPReceiveMessage {
     private MulticastSocket multicastSocket;
     private InetAddress inetAddress;
     private DatagramPacket packet;
-    private String mesageFromDevice = "";
+    private String messageFromDevice = "";
     private String device;
 
     public void setDevice(String device) {
@@ -38,7 +38,7 @@ public class UDPReceiveMessage {
         packet.setLength(packet.getData().length);
         multicastSocket.receive(packet);
         String str = new String(packet.getData());
-        System.out.println("Chuoi nhan tu client:  " + str + " --- " + "Time: " + Extentions.ConvertDateToString(Calendar.getInstance()));
+        System.out.println("Chuoi nhan tu client:  " + str + " --- " + "Time: " + Extensions.ConvertDateToString(Calendar.getInstance()));
         return str;
     }
 
@@ -70,7 +70,7 @@ public class UDPReceiveMessage {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (mesageFromDevice.equals(device)) {
+                    if (messageFromDevice.equals(device)) {
                         System.out.println("Done command");
                         //timer.cancel();
                     } else {
@@ -84,8 +84,8 @@ public class UDPReceiveMessage {
                 }
             }, timeCheck);
 
-            System.out.println("Recieving message from: " + device);
-            mesageFromDevice = receiveMessageFromDevice(device.length());
+            System.out.println("Receiving message from: " + device);
+            messageFromDevice = receiveMessageFromDevice(device.length());
 
         } catch (Exception e) {
             e.printStackTrace();

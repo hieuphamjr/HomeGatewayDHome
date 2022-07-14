@@ -64,8 +64,7 @@ public class TemperatureProcess {
                 }
                 try {
                     ByteBuffer wrapped = ByteBuffer.wrap(property.edt); // big-endian by default
-                    short num = wrapped.getShort();
-                    int value = (int)num;
+                    int value = wrapped.getShort();
                     //tempSensor.setIlluminanceValue(value);
                     tempSensor.setIlluminanceValue(new Random().nextInt(100));
                 } catch (JSONException e) {

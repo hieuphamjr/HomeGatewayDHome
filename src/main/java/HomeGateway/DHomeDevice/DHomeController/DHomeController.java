@@ -1,13 +1,11 @@
 package main.java.HomeGateway.DHomeDevice.DHomeController;
 
-import com.keysolutions.ddpclient.DDPClient;
-import main.java.HomeGateway.DHomeDevice.MethodParam.com;
-import main.java.HomeGateway.DHomeDevice.MethodParam.removeDSwitch;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.logging.Logger;
+import main.java.HomeGateway.DHomeDevice.MethodParam.Com;
+import main.java.HomeGateway.DHomeDevice.MethodParam.RemoveDSwitch;
+import main.java.HomeGateway.DHomeDevice.MethodParam.AddGroup;
+
+import java.util.*;
 
 public class DHomeController {
     private DHomeConnection mDHomeConnection;
@@ -19,20 +17,25 @@ public class DHomeController {
 
     public void turnOn (Integer id){
         Object[] param = new Object[1];
-        param[0] = new com(id, "on");
+        param[0] = new Com(id, "on");
         mDHomeConnection.getDdpClient().call("com", param);
     }
 
     public void turnOff (Integer id){
         Object[] param = new Object[1];
-        param[0] = new com(id, "off");
+        param[0] = new Com(id, "off");
         mDHomeConnection.getDdpClient().call("com", param);
     }
 
     public void toggle (Integer id){
         Object[] param = new Object[1];
-        param[0] = new com(id, "toggle");
-        mDHomeConnection.getDdpClient().call("com", param);
+        param[0] = new Com(id, "toggle");
+        mDHomeConnection.getDdpClient().call("com", param, new DHomeClientObserver() {
+            @Override
+            public void update(Observable client, Object msg) {
+                super.update(client, msg);
+            }
+        });
     }
 
     public void curtainUp (Integer id) {
@@ -47,56 +50,26 @@ public class DHomeController {
         mDHomeConnection.getDdpClient().call("curtainStop", new Object[]{id});
     }
 
-    public void addSwitch () {
-        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{}, new DHomeClientObserver(){
-            @Override
-            public void update(Observable client, Object msg) {
-                if (msg instanceof Map<?, ?>) {
-                    Map<String, Object> jsonFields = (Map<String, Object>) msg;
-                    String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
-                    if ((msgtype.equals(DDPClient.DdpMessageType.ADDED))) {
-                        String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
-                        if (!mCollections.containsKey("device")) {
-                            // add new collection
-                            System.out.println("New DSwitch added:");
-                            mCollections.put(collName, new HashMap<String, Object>());
-                            Map<String, Object> collection = mCollections.get("device");
-                            String id = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-                            System.out.println("Added DSwitch " + id + " to collection " + collName);
-                            collection.put(id, jsonFields.get(DDPClient.DdpMessageField.FIELDS));
-                            dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
-                            System.out.println("---------------");
-                        }
-                    }
-                }
-            }
-        });
+    public void addSwitch () throws InterruptedException {
+        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{});
+        Thread.sleep(1000);
     }
 
-    public void removeSwitch(Integer id, Integer netAdd) {
+    public void removeDevice(Integer id, Integer netAdd) throws InterruptedException {
         Object[] param = new Object[1];
-        param[0] = new removeDSwitch(id, netAdd);
-        mDHomeConnection.getDdpClient().call("removeDSwitch", param, new DHomeClientObserver() {
-            private final Logger LOGGER = Logger.getLogger(DDPClient.class .getName());
-            @Override
-            public void update(Observable client, Object msg) {
-                if (msg instanceof Map<?, ?>) {
-                    Map<String, Object> jsonFields = (Map<String, Object>) msg;
-                    String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
-                    if (msgtype.equals(DDPClient.DdpMessageType.REMOVED)) {
-                        String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
-                        if (mCollections.containsKey(collName)) {
-                            // remove IDs from collection
-                            Map<String, Object> collection = mCollections.get(collName);
-                            String docId = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-                            System.out.println(collName + docId + "removed");
-                            collection.remove(docId);
-                        } else {
-                            LOGGER.warning("Received invalid removed msg for collection " + collName);
-                        }
-                    }
-                }
-            }
-        });
+        param[0] = new RemoveDSwitch(id, netAdd);
+        mDHomeConnection.getDdpClient().call("removeSigleDevice", param);
+        Thread.sleep(1000);
+    }
+    public void addRoom (String name) throws InterruptedException {
+        Object[] param = new Object[1];
+        param[0] = new AddGroup(name, 0);
+        mDHomeConnection.getDdpClient().call("addGroup", param);
+        Thread.sleep(1000);
+    }
+
+    public void removeRoom (Integer id) throws InterruptedException {
+        mDHomeConnection.getDdpClient().call("removeGroup", new Object[]{id});
+        Thread.sleep(1000);
     }
 }

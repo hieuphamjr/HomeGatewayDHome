@@ -1,7 +1,6 @@
 package main.java.HomeGateway.MqttBroker;
 
 import main.java.HomeGateway.EchonteLite.CommandMessage;
-import main.java.HomeGateway.EchonteLite.EchonetLiteController;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,7 +17,6 @@ public class AnalyzeMessage extends Thread {
     }
 
     public void run() {
-//        System.out.println("task analyze: " + topicDevice);
 
         try {
             if (topicDevice.equals(TopicDevices.getTopicForNewDevice())) {
