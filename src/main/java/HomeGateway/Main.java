@@ -23,7 +23,8 @@ public class Main {
     public static MqttClient mqttClient;
     public static MqttClient clientPub;
     public static void main(String[] args) throws MqttException, URISyntaxException, InterruptedException, IOException {
-//        System.setProperty("java.net.preferIPv4Stack" , "true")
+        System.setProperty("java.net.preferIPv4Stack" , "true");
+        Gson gson = new Gson();
         DHome dhome = new DHome("192.168.0.103");
         DHomeClientObserver obs = new DHomeClientObserver();
         DHomeConnection conn = new DHomeConnection();
@@ -141,7 +142,6 @@ public class Main {
                                 HashMap<String, Object> groupCollection = (HashMap<String, Object>) obs.mCollections.get("group");
                                 Integer newGroupId = 0;
                                 for (Map.Entry<String, Object> entry : groupCollection.entrySet()) {
-                                    Gson gson = new Gson();
                                     String key = entry.getKey();
                                     JsonObject json = gson.toJsonTree(groupCollection.get(key)).getAsJsonObject();
                                     if (newGroupId < json.get("id").getAsInt()) newGroupId = json.get("id").getAsInt();
@@ -176,7 +176,6 @@ public class Main {
                                 int netadd = ((Long) jsonMessage.get("netadd")).intValue();
                                 HashMap<String, Object> deviceCollection = (HashMap<String, Object>) obs.mCollections.get("device");
                                 if (deviceCollection.containsKey(idToString(id))) {
-                                    Gson gson = new Gson();
                                     JsonObject device = gson.toJsonTree(deviceCollection.get(idToString(id))).getAsJsonObject();
                                     if (netadd == device.get("netadd").getAsInt()) {
                                         controller.removeDevice(id, netadd);
@@ -193,7 +192,60 @@ public class Main {
                             }
                         }
                         if (topic.equals(configDeviceTopic)) {
-
+                            if (!(jsonMessage.containsKey("name")
+                                    && jsonMessage.containsKey("type")
+                                    && jsonMessage.containsKey("idx")
+                                    && jsonMessage.containsKey("netadd")
+                                    && jsonMessage.containsKey("endpoint")
+                                    && jsonMessage.containsKey("groupId"))) {
+                                ErrorMessage error = new ErrorMessage(controlTopic, 2);
+                                message.setPayload(error.createMessage().getBytes(StandardCharsets.UTF_8));
+                            } else {
+                                String name = jsonMessage.get("name").toString();
+                                int type = ((Long) jsonMessage.get("type")).intValue();
+                                int idx = ((Long) jsonMessage.get("idx")).intValue();
+                                int netadd = ((Long) jsonMessage.get("netadd")).intValue();
+                                int endpoint = ((Long) jsonMessage.get("endpoint")).intValue();
+                                int groupId = ((Long) jsonMessage.get("groupId")).intValue();
+                                if ((type == 0 || type == 2) && (idx == 48 || idx == 49 || idx == 50 || idx == 51)) {
+                                        HashMap<String, Object> deviceCollection = (HashMap<String, Object>) obs.mCollections.get("device");
+                                        boolean isValidDevice = false;
+                                        for (Map.Entry<String, Object> entry : deviceCollection.entrySet()) {
+                                            String key = entry.getKey();
+                                            JsonObject json = gson.toJsonTree(deviceCollection.get(key)).getAsJsonObject();
+                                            if (json.get("netadd").getAsInt() == netadd
+                                                    && json.get("endpoint").getAsInt() == endpoint) {
+                                                HashMap<String, Object> groupCollection = (HashMap<String, Object>) obs.mCollections.get("group");
+                                                isValidDevice = groupCollection.containsKey(idToString(groupId));
+                                            }
+                                        }
+                                        if (isValidDevice) {
+                                            controller.addDevice(name, type, idx, netadd, endpoint, groupId, obs);
+                                            ConfigDeviceMessage msg = new ConfigDeviceMessage(obs.devId.intValue(), name, type, groupId);
+                                            message.setPayload(msg.createMessage().getBytes(StandardCharsets.UTF_8));
+                                        } else {
+                                            ErrorMessage error = new ErrorMessage(controlTopic, 2);
+                                            message.setPayload(error.createMessage().getBytes(StandardCharsets.UTF_8));
+                                        }
+                                } else {
+                                    ErrorMessage error = new ErrorMessage(controlTopic, 2);
+                                    message.setPayload(error.createMessage().getBytes(StandardCharsets.UTF_8));
+                                }
+                            }
+                        }
+                        if (topic.equals(addDeviceTopic)) {
+                            if (!jsonMessage.containsKey("cmd")){
+                                ErrorMessage error = new ErrorMessage(controlTopic, 2);
+                                message.setPayload(error.createMessage().getBytes(StandardCharsets.UTF_8));
+                            } else {
+                                String cmd = jsonMessage.get("cmd").toString();
+                                if(cmd.equals("addNewDevice")){
+                                    controller.addSwitch();
+                                } else {
+                                    ErrorMessage error = new ErrorMessage(topic, 2);
+                                    message.setPayload(error.createMessage().getBytes(StandardCharsets.UTF_8));
+                                }
+                            }
                         }
                     } else {
                         ErrorMessage error = new ErrorMessage(topic, 3);

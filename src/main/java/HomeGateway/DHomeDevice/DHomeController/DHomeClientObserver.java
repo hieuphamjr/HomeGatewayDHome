@@ -2,11 +2,17 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 import com.keysolutions.ddpclient.DDPClient;
 import com.keysolutions.ddpclient.DDPListener;
+import main.java.HomeGateway.MessageToBroker.ControlDeviceMessage;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static main.java.Extensions.Extensions.dumpMap;
+import static java.lang.Integer.parseInt;
+import static main.java.HomeGateway.ConfigHomeGateway.controlTopic;
+import static main.java.HomeGateway.Main.clientPub;
 
 /**
  * @author Hieu
@@ -23,8 +29,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
     }
 
     public DDPSTATE mDdpState;
-    public String mResumeToken;
-    public String mUserId;
+    public Double devId;
     public int mErrorCode;
     public String mErrorType;
     public String mErrorReason;
@@ -45,6 +50,17 @@ public class DHomeClientObserver extends DDPListener implements Observer {
 
     @Override
     public void onResult(Map<String, Object> resultFields) {
+        if (resultFields.containsKey("result")) {
+            Map<String, Object> result = (Map<String, Object>) resultFields.get(DDPClient.DdpMessageField.RESULT);
+            devId = Double.parseDouble(result.get("devId").toString());
+        }
+        if (resultFields.containsKey("error")) {
+            Map<String, Object> error = (Map<String, Object>) resultFields.get(DDPClient.DdpMessageField.ERROR);
+            mErrorCode = (int) Math.round((Double)error.get("error"));
+            mErrorMsg = (String) error.get("message");
+            mErrorType = (String) error.get("errorType");
+            mErrorReason = (String) error.get("reason");
+        }
     }
 
     @Override
@@ -89,7 +105,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
             }
             if (msgtype.equals(DDPClient.DdpMessageType.CLOSED)) {
                 mDdpState = DHomeClientObserver.DDPSTATE.Closed;
-                mCloseCode = Integer.parseInt(jsonFields.get(DDPClient.DdpMessageField.CODE).toString());
+                mCloseCode = parseInt(jsonFields.get(DDPClient.DdpMessageField.CODE).toString());
                 mCloseReason = (String) jsonFields.get(DDPClient.DdpMessageField.REASON);
                 mCloseFromRemote = (Boolean) jsonFields.get(DDPClient.DdpMessageField.REMOTE);
             }
@@ -142,8 +158,15 @@ public class DHomeClientObserver extends DDPListener implements Observer {
                             }
                         }
                     }
-//                    System.out.println(collName + docId + " changed");
-//                    dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
+//                    Map<String, Object> fields = (Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS);
+//                    String status = fields.get("status").toString();
+//                    int newStatus = status == "48" ? 0 : 1;
+//                    ControlDeviceMessage publishMessage = new ControlDeviceMessage(parseInt(docId), newStatus);
+//                    try {
+//                        clientPub.publish(controlTopic, new MqttMessage(publishMessage.createMessage().getBytes(StandardCharsets.UTF_8)));
+//                    } catch (MqttException e) {
+//                        e.printStackTrace();
+//                    }
                 } else {
                     LOGGER.warning("Received invalid changed msg for collection " + collName);
                 }
