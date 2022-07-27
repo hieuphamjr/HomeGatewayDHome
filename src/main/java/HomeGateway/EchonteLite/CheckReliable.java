@@ -3,9 +3,9 @@ package main.java.HomeGateway.EchonteLite;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CheckReliable {
-    private ConcurrentHashMap<String, String> IPAddress = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> CheckReceivePacket = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> CheckMessageCommand = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, String> IPAddress = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, String> CheckReceivePacket = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, String> CheckMessageCommand = new ConcurrentHashMap<>();
 
     public synchronized void addDeviceReceive(String device, String status) {
         if (getDeviceReceive(device) == null) {

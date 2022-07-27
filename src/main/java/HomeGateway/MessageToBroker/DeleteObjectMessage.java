@@ -3,9 +3,9 @@ package main.java.HomeGateway.MessageToBroker;
 import org.json.simple.JSONObject;
 
 public class DeleteObjectMessage {
-    private String cmd;
-    private Integer id;
-    private long time;
+    private final String cmd;
+    private final Integer id;
+    private final long time;
 
     public DeleteObjectMessage(String cmd, Integer id) {
         this.cmd = cmd;

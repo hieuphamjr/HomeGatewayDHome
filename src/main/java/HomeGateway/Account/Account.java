@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class Account {
-    private String path = "src/data/InforAccount.txt";
+    private final String path = "src/data/InforAccount.txt";
 
     public ArrayList<String> getInforAccount() {
         try {

@@ -10,11 +10,12 @@ import static java.lang.Integer.parseInt;
 
 /**
  * @author Hieu
- *
+ * <p>
  * DDP client observer that handles messages for DDP Client
  */
 public class DHomeClientObserver extends DDPListener implements Observer {
-    private final static Logger LOGGER = Logger.getLogger(DDPClient.class .getName());
+    private final static Logger LOGGER = Logger.getLogger(DDPClient.class.getName());
+
     public enum DDPSTATE {
         Disconnected,
         Connected,
@@ -50,7 +51,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
         }
         if (resultFields.containsKey("error")) {
             Map<String, Object> error = (Map<String, Object>) resultFields.get(DDPClient.DdpMessageField.ERROR);
-            mErrorCode = (int) Math.round((Double)error.get("error"));
+            mErrorCode = (int) Math.round((Double) error.get("error"));
             mErrorMsg = (String) error.get("message");
             mErrorType = (String) error.get("errorType");
             mErrorReason = (String) error.get("reason");
@@ -60,7 +61,7 @@ public class DHomeClientObserver extends DDPListener implements Observer {
     @Override
     public void onNoSub(String id, Map<String, Object> error) {
         if (error != null) {
-            mErrorCode = (int) Math.round((Double)error.get("error"));
+            mErrorCode = (int) Math.round((Double) error.get("error"));
             mErrorMsg = (String) error.get("message");
             mErrorType = (String) error.get("errorType");
             mErrorReason = (String) error.get("reason");

@@ -3,10 +3,10 @@ package main.java.HomeGateway.MessageToBroker;
 import org.json.simple.JSONObject;
 
 public class ControlDeviceMessage {
-    private String cmd;
-    private Integer id;
-    private Integer status;
-    private long time;
+    private final String cmd;
+    private final Integer id;
+    private final Integer status;
+    private final long time;
 
     public ControlDeviceMessage(Integer id, Integer status) {
         this.cmd = "ctrlDev";

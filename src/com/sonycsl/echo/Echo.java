@@ -42,10 +42,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Echo {
 
     private static volatile EchoNode sSelfNode;
-    private static Map<String, EchoNode> sOtherNodes;
+    private static final Map<String, EchoNode> sOtherNodes;
 
     private static Events sEvents = null;
-    private static ArrayList<EventListener> sListeners;
+    private static final ArrayList<EventListener> sListeners;
 
     private volatile static boolean sStarted = false;
     private volatile static boolean sCleared = true;
@@ -163,7 +163,7 @@ public final class Echo {
         for (EchoNode n : nodes) {
             ret.add(n);
         }
-        return ret.toArray(new EchoNode[] {});
+        return ret.toArray(new EchoNode[]{});
     }
 
     public static EchoNode getNode(String address) {
@@ -299,11 +299,11 @@ public final class Echo {
         }
 
         public void onSetProperty(EchoObject eoj, short tid, byte esv, EchoProperty property,
-                boolean success) {
+                                  boolean success) {
         }
 
         public void onGetProperty(EchoObject eoj, short tid, byte esv, EchoProperty property,
-                boolean success) {
+                                  boolean success) {
         }
 
         public void onInformProperty(EchoObject eoj, short tid, byte esv, EchoProperty property) {
@@ -633,7 +633,7 @@ public final class Echo {
 
         @Override
         public void setProperty(EchoObject eoj, EchoProperty property,
-                boolean success) {
+                                boolean success) {
             long millis = System.currentTimeMillis();
             mOut.println("millis:" + millis
                     + ",method:set," + eoj.toString()
@@ -655,14 +655,14 @@ public final class Echo {
 
         @Override
         public void isValidProperty(EchoObject eoj, EchoProperty property,
-                boolean valid) {
+                                    boolean valid) {
             // TODO Auto-generated method stub
             super.isValidProperty(eoj, property, valid);
         }
 
         @Override
         public void onSetProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property, boolean success) {
+                                  EchoProperty property, boolean success) {
             long millis = System.currentTimeMillis();
             mOut.println("millis:" + millis
                     + ",method:onSet," + eoj.toString()
@@ -676,7 +676,7 @@ public final class Echo {
 
         @Override
         public void onGetProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property, boolean success) {
+                                  EchoProperty property, boolean success) {
             long millis = System.currentTimeMillis();
             mOut.println("millis:" + millis
                     + ",method:onGet," + eoj.toString()
@@ -690,7 +690,7 @@ public final class Echo {
 
         @Override
         public void onInformProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property) {
+                                     EchoProperty property) {
             long millis = System.currentTimeMillis();
             mOut.println("millis:" + millis
                     + ",method:onInform," + eoj.toString()
@@ -731,7 +731,7 @@ public final class Echo {
 
         @Override
         public void reqInformCPropertyEvent(EchoObject eoj,
-                EchoProperty property) {
+                                            EchoProperty property) {
             long millis = System.currentTimeMillis();
             mOut.println("millis:" + millis
                     + ",method:reqInformC," + eoj.toString()
@@ -794,7 +794,7 @@ public final class Echo {
 
         @Override
         public void setProperty(EchoObject eoj, EchoProperty property,
-                boolean success) {
+                                boolean success) {
             super.setProperty(eoj, property, success);
             for (EventListener listener : sListeners) {
                 listener.setProperty(eoj, property, success);
@@ -810,7 +810,7 @@ public final class Echo {
 
         @Override
         public void isValidProperty(EchoObject eoj, EchoProperty property,
-                boolean valid) {
+                                    boolean valid) {
             for (EventListener listener : sListeners) {
                 listener.isValidProperty(eoj, property, valid);
             }
@@ -818,7 +818,7 @@ public final class Echo {
 
         @Override
         public void onSetProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property, boolean success) {
+                                  EchoProperty property, boolean success) {
             for (EventListener listener : sListeners) {
                 listener.onSetProperty(eoj, tid, esv, property, success);
             }
@@ -826,7 +826,7 @@ public final class Echo {
 
         @Override
         public void onGetProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property, boolean success) {
+                                  EchoProperty property, boolean success) {
             for (EventListener listener : sListeners) {
                 listener.onGetProperty(eoj, tid, esv, property, success);
             }
@@ -834,7 +834,7 @@ public final class Echo {
 
         @Override
         public void onInformProperty(EchoObject eoj, short tid, byte esv,
-                EchoProperty property) {
+                                     EchoProperty property) {
             for (EventListener listener : sListeners) {
                 listener.onInformProperty(eoj, tid, esv, property);
             }
@@ -863,7 +863,7 @@ public final class Echo {
 
         @Override
         public void reqInformCPropertyEvent(EchoObject eoj,
-                EchoProperty property) {
+                                            EchoProperty property) {
             for (EventListener listener : sListeners) {
                 listener.reqInformCPropertyEvent(eoj, property);
             }

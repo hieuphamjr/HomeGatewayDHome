@@ -16,8 +16,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class EchonetLiteController {
-    private int countPayload = 0;
-    private CheckReliable checkReliable = new CheckReliable();
+    private final int countPayload = 0;
+    private final CheckReliable checkReliable = new CheckReliable();
 
     public EchonetLiteController(TopicDevices topicDevices) {
         //Sensor thread
@@ -86,6 +86,6 @@ public class EchonetLiteController {
                             e.printStackTrace();
                         }
                     }
-                },0, TimeRequest.homeGatewayTime);
+                }, 0, TimeRequest.homeGatewayTime);
     }
 }

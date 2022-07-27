@@ -18,9 +18,6 @@ public class MqttConnection {
             mqttClientSub = new MqttClient(brokerURL, MqttClient.generateClientId());
             MqttConnectOptions conOptsSub = setUpConnectionOptions();
             mqttClientSub.connect(conOptsSub);
-            mqttClientSub.subscribe("home1/a");
-            data.getMessageFromBroker(mqttClientSub);
-
             mqttClientPub = new MqttClient(brokerURL, MqttClient.generateClientId());
             MqttConnectOptions conOptsPub = setUpConnectionOptions();
             mqttClientPub.connect(conOptsPub);
@@ -36,7 +33,6 @@ public class MqttConnection {
     public static MqttConnectOptions setUpConnectionOptions() {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
-        connOpts.setAutomaticReconnect(true);
         connOpts.setUserName(username);
         connOpts.setPassword(password.toCharArray());
         return connOpts;

@@ -1,9 +1,9 @@
 package main.java.HomeGateway.DHomeDevice.MethodParam;
 
 public class Com {
-    private Integer id;
+    private final Integer id;
     private Integer idx;
-    private String act;
+    private final String act;
 
     public Com(Integer id, Integer idx, String act) {
         this.id = id;

@@ -1,14 +1,14 @@
 package main.java.HomeGateway.DHomeDevice.MethodParam;
 
 public class AddDevice {
-    private String name;
-    private String description;
-    private Integer type;
-    private Integer idx;
-    private Integer netadd;
-    private Integer endpoint;
-    private Integer groupId;
-    private Integer icon;
+    private final String name;
+    private final String description;
+    private final Integer type;
+    private final Integer idx;
+    private final Integer netadd;
+    private final Integer endpoint;
+    private final Integer groupId;
+    private final Integer icon;
 
     public AddDevice(String name, Integer type, Integer idx, Integer netadd, Integer endpoint, Integer groupId) {
         this.name = name;

@@ -48,7 +48,7 @@ public class UDPReceiveMessage {
     public void sendMessage() throws Exception {
         String str = device.replace("/receive", "");
         System.out.println("Send: " + str);
-        DatagramPacket packet1=new DatagramPacket(str.getBytes(),str.length(), inetAddress, port);
+        DatagramPacket packet1 = new DatagramPacket(str.getBytes(), str.length(), inetAddress, port);
         multicastSocket.send(packet1);
         checkReliableCommand();
     }

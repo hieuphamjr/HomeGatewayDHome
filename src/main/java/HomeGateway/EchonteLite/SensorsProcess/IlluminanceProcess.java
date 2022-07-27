@@ -21,8 +21,8 @@ import java.util.TimerTask;
 
 public class IlluminanceProcess {
     private int countPayload = 0;
-    private DataTransfer data = new DataTransfer();
-    private CheckReliable checkReliable = new CheckReliable();
+    private final DataTransfer data = new DataTransfer();
+    private final CheckReliable checkReliable = new CheckReliable();
 
     public synchronized void illuminanceSensor(IlluminanceSensor device, TopicDevices topicDevices) {
         IlluminancePayload illuSensor = new IlluminancePayload();
@@ -80,9 +80,9 @@ public class IlluminanceProcess {
                     illuSensor.alertSucessWrong();
                     return;
                 }
-                String macAddress = EchoUtils.toHexString(property.edt[0])+":"+ EchoUtils.toHexString(property.edt[1])
-                        +":"+EchoUtils.toHexString(property.edt[2])+":"+EchoUtils.toHexString(property.edt[3])
-                        +":"+EchoUtils.toHexString(property.edt[4])+":"+EchoUtils.toHexString(property.edt[5]);
+                String macAddress = EchoUtils.toHexString(property.edt[0]) + ":" + EchoUtils.toHexString(property.edt[1])
+                        + ":" + EchoUtils.toHexString(property.edt[2]) + ":" + EchoUtils.toHexString(property.edt[3])
+                        + ":" + EchoUtils.toHexString(property.edt[4]) + ":" + EchoUtils.toHexString(property.edt[5]);
                 System.out.println(macAddress);
                 System.out.println();
                 device.setMacAddress(macAddress);
@@ -97,7 +97,7 @@ public class IlluminanceProcess {
                         data.sendMessageToBroker(MqttConnection.getMqttClientPub(),
                                 topicDevices.getTopicForDevice(device.getMacAddress(), device.getClassGroupCode(),
                                         device.getClassCode(), device.getInstanceCode()) + "/data", illuSensor.getMessage());
-                        countPayload ++;
+                        countPayload++;
 
                         //System.out.println("Payload Illuminance: " + countPayload + " ---> " + "Device: " + dev);
                     } else {
@@ -120,47 +120,47 @@ public class IlluminanceProcess {
 
         Timer timeRequest = new Timer();
         timeRequest.scheduleAtFixedRate(
-            new TimerTask() {
-                public void run() {
-                    try {
-                        short tidRequest = device.get().reqGetMeasuredIlluminanceValue1().reqGetInstallationLocation().
-                                reqGetOperationStatus().reqGetMacAddress().send().getTID();
-                        String dev = device.getMacAddress() + "/" + device.getClassGroupCode() + "/" + device.getClassCode() + "/" +device.getInstanceCode() + "~" + tidRequest;
-                        checkReliable.addDeviceReceive(dev, "sent");
+                new TimerTask() {
+                    public void run() {
+                        try {
+                            short tidRequest = device.get().reqGetMeasuredIlluminanceValue1().reqGetInstallationLocation().
+                                    reqGetOperationStatus().reqGetMacAddress().send().getTID();
+                            String dev = device.getMacAddress() + "/" + device.getClassGroupCode() + "/" + device.getClassCode() + "/" + device.getInstanceCode() + "~" + tidRequest;
+                            checkReliable.addDeviceReceive(dev, "sent");
 
 
-                        //Reliable transfer
-                        if (TimeRequest.illuminanceTime > TimeRequest.reliableTransferTime && topicDevices.checkTopicForDevice(device.getMacAddress(),
-                                device.getClassGroupCode(), device.getClassCode(), device.getInstanceCode())) {
-                            if (checkReliable.getDeviceReceive(dev) != null) {
-                                Calendar calendarReq = Calendar.getInstance();
-                                calendarReq.add(Calendar.SECOND, TimeRequest.timeCheckReliable);
-                                Date timeCheck = calendarReq.getTime();
-                                Timer timer = new Timer();
-                                timer.schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            if (checkReliable.getDeviceReceive(dev).equals("received")) {
-                                                System.out.println("HGW is received packet: " + dev);
-                                                checkReliable.removeDevicePacket(dev);
-                                            } else {
-                                                String[] tidReq = dev.split("~");
-                                                device.get().reqGetMeasuredIlluminanceValue1().reqGetInstallationLocation().
-                                                        reqGetOperationStatus().reqGetMacAddress().reSend(Short.parseShort(tidReq[1]));
-                                                System.out.println("Loss Packet");
+                            //Reliable transfer
+                            if (TimeRequest.illuminanceTime > TimeRequest.reliableTransferTime && topicDevices.checkTopicForDevice(device.getMacAddress(),
+                                    device.getClassGroupCode(), device.getClassCode(), device.getInstanceCode())) {
+                                if (checkReliable.getDeviceReceive(dev) != null) {
+                                    Calendar calendarReq = Calendar.getInstance();
+                                    calendarReq.add(Calendar.SECOND, TimeRequest.timeCheckReliable);
+                                    Date timeCheck = calendarReq.getTime();
+                                    Timer timer = new Timer();
+                                    timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                if (checkReliable.getDeviceReceive(dev).equals("received")) {
+                                                    System.out.println("HGW is received packet: " + dev);
+                                                    checkReliable.removeDevicePacket(dev);
+                                                } else {
+                                                    String[] tidReq = dev.split("~");
+                                                    device.get().reqGetMeasuredIlluminanceValue1().reqGetInstallationLocation().
+                                                            reqGetOperationStatus().reqGetMacAddress().reSend(Short.parseShort(tidReq[1]));
+                                                    System.out.println("Loss Packet");
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
                                             }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
                                         }
-                                    }
-                                }, timeCheck);
+                                    }, timeCheck);
+                                }
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                }
-            },0, TimeRequest.illuminanceTime);
+                }, 0, TimeRequest.illuminanceTime);
     }
 }

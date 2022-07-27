@@ -8,30 +8,30 @@ public class IlluminancePayload {
     private String IPAddress = "null";
     private boolean operationStatus = true;
     private int illuminanceValue = 0;
-    private String installationLocation = "null";
-    private JSONObject jsonMessage = new JSONObject();
+    private final String installationLocation = "null";
+    private final JSONObject jsonMessage = new JSONObject();
 
     public void createMessage() throws JSONException {
-       jsonMessage.put("MAC", MAC);
-       jsonMessage.put("IPAddress", IPAddress);
-       jsonMessage.put("OperationStatus", operationStatus);
-       jsonMessage.put("IlluminanceValue", illuminanceValue);
+        jsonMessage.put("MAC", MAC);
+        jsonMessage.put("IPAddress", IPAddress);
+        jsonMessage.put("OperationStatus", operationStatus);
+        jsonMessage.put("IlluminanceValue", illuminanceValue);
     }
 
     public String getMessage() {
         return jsonMessage.toString();
     }
 
-       public void setMAC(String MAC) throws JSONException {
+    public void setMAC(String MAC) throws JSONException {
         this.MAC = MAC;
         jsonMessage.remove("MAC");
         jsonMessage.put("MAC", this.MAC);
     }
 
     public void setIPAddress(String IPAddress) throws JSONException {
-    this.IPAddress = IPAddress;
-    jsonMessage.remove("IPAddress");
-    jsonMessage.put("IPAddress", this.IPAddress);
+        this.IPAddress = IPAddress;
+        jsonMessage.remove("IPAddress");
+        jsonMessage.put("IPAddress", this.IPAddress);
     }
 
     public void setIlluminanceValue(int illuminanceValue) throws JSONException {

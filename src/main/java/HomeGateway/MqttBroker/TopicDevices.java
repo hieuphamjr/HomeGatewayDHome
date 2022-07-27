@@ -13,15 +13,15 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TopicDevices {
-//    File f = new File(path);
+    //    File f = new File(path);
 //    f.getParentFile().mkdirs();
 //    FileOutputStream fos = new FileOutputStream(f);
-    private String path = "src/data/TopicDevices.txt";
+    private final String path = "src/data/TopicDevices.txt";
     public ArrayList<DeviceObject> myDevices = new ArrayList<>();
-    private static ConcurrentHashMap<String, String> TopicForDevice = new ConcurrentHashMap<>();
-    private static ArrayList<String> topicSubscribe = new ArrayList<>();
-    private static ArrayList<String> checkDevice = new ArrayList<>();
-    private File topicFile = new File(path);
+    private static final ConcurrentHashMap<String, String> TopicForDevice = new ConcurrentHashMap<>();
+    private static final ArrayList<String> topicSubscribe = new ArrayList<>();
+    private static final ArrayList<String> checkDevice = new ArrayList<>();
+    private final File topicFile = new File(path);
     private String[] devices;
     private String[] topicForDevice;
 
@@ -31,7 +31,7 @@ public class TopicDevices {
             if (topicFile.length() != 0) {
                 FileInputStream fis = new FileInputStream(topicFile);
                 Scanner scanFile = new Scanner(fis);
-                while(scanFile.hasNextLine()) {
+                while (scanFile.hasNextLine()) {
                     String[] splitTopic = scanFile.nextLine().split("~");
                     topicSubscribe.add(splitTopic[1] + "/command");
                     TopicForDevice.put(splitTopic[0], splitTopic[1]);
@@ -39,8 +39,7 @@ public class TopicDevices {
                 }
                 scanFile.close();
             }
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -62,6 +61,7 @@ public class TopicDevices {
 
         System.out.println("Add topic: " + topic);
     }
+
     //Get device's topic
     public String getTopicForDevice(String MAC, byte groupCode, byte classCode, byte instanceCode) {
         String device = MAC + "/" + groupCode + "/" + classCode + "/" + instanceCode;

@@ -37,8 +37,8 @@ public final class EchoSocket {
         sTaskQueue.offer(task);
     }
 
-    private static EchoUDPProtocol sUDPProtocol = new EchoUDPProtocol();
-    private static EchoTCPProtocol sTCPProtocol = new EchoTCPProtocol();
+    private static final EchoUDPProtocol sUDPProtocol = new EchoUDPProtocol();
+    private static final EchoTCPProtocol sTCPProtocol = new EchoTCPProtocol();
 
     private static Thread udpThread;
     private static Thread sTaskPerformerThread;

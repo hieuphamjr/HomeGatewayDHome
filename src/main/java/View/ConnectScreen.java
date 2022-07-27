@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ConnectScreen extends JFrame{
+public class ConnectScreen extends JFrame {
     private JButton btnConnect;
     private JPasswordField password;
     private JTextField username;

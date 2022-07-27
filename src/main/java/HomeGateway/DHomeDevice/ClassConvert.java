@@ -22,14 +22,14 @@ public class ClassConvert {
         return m.readValue(json.toString(), Device.class);
     }
 
-    public static Device getDeviceById (HashMap deviceList, Integer id) throws IOException {
+    public static Device getDeviceById(HashMap deviceList, Integer id) throws IOException {
         Gson gson = new Gson();
         JsonObject json = gson.toJsonTree(deviceList.get(idToString(id))).getAsJsonObject();
         Device device = jsonToDevice(json);
         return device;
     }
 
-    public static Group getGroupId (HashMap groupList, Integer id) throws IOException {
+    public static Group getGroupId(HashMap groupList, Integer id) throws IOException {
         Gson gson = new Gson();
         JsonObject json = gson.toJsonTree(groupList.get(idToString(id))).getAsJsonObject();
         Group group = jsonToGroup(json);

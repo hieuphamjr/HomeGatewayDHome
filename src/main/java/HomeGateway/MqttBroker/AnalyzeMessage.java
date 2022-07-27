@@ -6,9 +6,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class AnalyzeMessage extends Thread {
-    private String topicDevice;
-    private MqttMessage mqttMessage;
-    private TopicDevices topicDevices;
+    private final String topicDevice;
+    private final MqttMessage mqttMessage;
+    private final TopicDevices topicDevices;
 
     AnalyzeMessage(String topic, MqttMessage message, TopicDevices topicDevices) {
         topicDevice = topic;

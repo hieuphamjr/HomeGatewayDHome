@@ -18,45 +18,45 @@ import static main.java.HomeGateway.ConfigHomeGateway.addDeviceTopic;
 import static main.java.HomeGateway.Main.clientPub;
 
 public class DHomeController {
-    private DHomeConnection mDHomeConnection;
+    private final DHomeConnection mDHomeConnection;
 
     public DHomeController(DHomeConnection mDHomeConnection) {
         this.mDHomeConnection = mDHomeConnection;
     }
 
 
-    public void turnOn (Integer id){
+    public void turnOn(Integer id) {
         Object[] param = new Object[1];
         param[0] = new Com(id, "on");
         mDHomeConnection.getDdpClient().call("com", param);
     }
 
-    public void turnOff (Integer id){
+    public void turnOff(Integer id) {
         Object[] param = new Object[1];
         param[0] = new Com(id, "off");
         mDHomeConnection.getDdpClient().call("com", param);
     }
 
-    public void toggle (Integer id){
+    public void toggle(Integer id) {
         Object[] param = new Object[1];
         param[0] = new Com(id, "toggle");
         mDHomeConnection.getDdpClient().call("com", param);
     }
 
-    public void curtainUp (Integer id) {
+    public void curtainUp(Integer id) {
         mDHomeConnection.getDdpClient().call("curtainUp", new Object[]{id});
     }
 
-    public void curtainDown (Integer id) {
+    public void curtainDown(Integer id) {
         mDHomeConnection.getDdpClient().call("curtainDown", new Object[]{id});
     }
 
-    public void curtainStop (Integer id) {
+    public void curtainStop(Integer id) {
         mDHomeConnection.getDdpClient().call("curtainStop", new Object[]{id});
     }
 
-    public void addSwitch () throws InterruptedException {
-        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{}, new DHomeClientObserver(){
+    public void addSwitch() throws InterruptedException {
+        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{}, new DHomeClientObserver() {
             @Override
             public void update(Observable client, Object msg) {
                 if (msg instanceof Map<?, ?>) {
@@ -90,14 +90,15 @@ public class DHomeController {
         mDHomeConnection.getDdpClient().call("removeSigleDevice", param);
         Thread.sleep(1000);
     }
-    public void addRoom (String name) throws InterruptedException {
+
+    public void addRoom(String name) throws InterruptedException {
         Object[] param = new Object[1];
         param[0] = new AddGroup(name, 0);
         mDHomeConnection.getDdpClient().call("addGroup", param);
         Thread.sleep(1000);
     }
 
-    public void removeRoom (Integer id) throws InterruptedException {
+    public void removeRoom(Integer id) throws InterruptedException {
         mDHomeConnection.getDdpClient().call("removeGroup", new Object[]{id});
         Thread.sleep(1000);
     }

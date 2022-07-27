@@ -1,4 +1,3 @@
-
 package com.sonycsl.echo.protocol;
 
 import com.sonycsl.echo.Echo;
@@ -192,7 +191,7 @@ public class EchoTCPProtocol extends EchoProtocol {
             super(frame);
             mTCPProtocol = protocol;
             mSocket = socket; // boolean isFrameFromSelfNode () { return
-                              // (mSocket == null) }
+            // (mSocket == null) }
         }
 
         @Override

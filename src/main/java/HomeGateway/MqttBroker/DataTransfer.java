@@ -13,10 +13,12 @@ public class DataTransfer {
             public void connectComplete(boolean status, String host) {
                 System.out.println("Connection " + status + "; server " + host);
             }
+
             @Override
             public void connectionLost(Throwable cause) {
                 System.out.println("MQTT subscriber error: Lost MQTT Connection" + cause.getMessage());
             }
+
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) {
                 System.out.println("topic" + mqttMessage);
@@ -24,6 +26,7 @@ public class DataTransfer {
 
                 }
             }
+
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
             }
@@ -35,10 +38,10 @@ public class DataTransfer {
             @Override
             public void connectionLost(Throwable cause) {
                 System.out.println("MQTT subscriber error: Lost MQTT Connection" + cause.getMessage());
-                System.out.println("msg "+ cause.getMessage());
-                System.out.println("loc "+ cause.getLocalizedMessage());
-                System.out.println("cause "+ cause.getCause());
-                System.out.println("except "+ cause);
+                System.out.println("msg " + cause.getMessage());
+                System.out.println("loc " + cause.getLocalizedMessage());
+                System.out.println("cause " + cause.getCause());
+                System.out.println("except " + cause);
             }
 
             @Override

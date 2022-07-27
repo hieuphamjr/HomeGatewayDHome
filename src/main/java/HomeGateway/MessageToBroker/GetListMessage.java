@@ -5,9 +5,9 @@ import org.json.simple.JSONObject;
 import java.util.List;
 
 public class GetListMessage {
-    private String cmd;
-    private List list;
-    private long time;
+    private final String cmd;
+    private final List list;
+    private final long time;
 
     public GetListMessage(String cmd, List list) {
         this.cmd = cmd;

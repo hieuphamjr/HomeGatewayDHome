@@ -8,8 +8,8 @@ public class LightingDevicePayload {
     private String IPAddress = "null";
     private boolean operationStatus = true;
     private int illuminanceValue = 0;
-    private String installationLocation = "null";
-    private JSONObject jsonMessage = new JSONObject();
+    private final String installationLocation = "null";
+    private final JSONObject jsonMessage = new JSONObject();
 
     public void createMessage() throws JSONException {
         jsonMessage.put("MAC", MAC);

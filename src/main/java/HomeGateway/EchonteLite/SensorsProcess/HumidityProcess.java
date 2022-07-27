@@ -19,8 +19,8 @@ import java.util.TimerTask;
 
 public class HumidityProcess {
     private int countPayload = 0;
-    private DataTransfer data = new DataTransfer();
-    private CheckReliable checkReliable = new CheckReliable();
+    private final DataTransfer data = new DataTransfer();
+    private final CheckReliable checkReliable = new CheckReliable();
 
     public synchronized void humiditySensor(HumiditySensor device, TopicDevices topicDevices) {
         HumidityPayload humiSensor = new HumidityPayload();
@@ -52,6 +52,7 @@ public class HumidityProcess {
                     e.printStackTrace();
                 }
             }
+
             @Override
             protected void onGetMeasuredValueOfRelativeHumidity(EchoObject eoj, short tid, byte esv,
                                                                 EchoProperty property, boolean success) {
@@ -67,6 +68,7 @@ public class HumidityProcess {
                     e.printStackTrace();
                 }
             }
+
             @Override
             protected void onGetMacAddress(EchoObject eoj, short tid, byte esv,
                                            EchoProperty property, boolean success) {
@@ -75,9 +77,9 @@ public class HumidityProcess {
                     humiSensor.alertSucessWrong();
                     return;
                 }
-                String macAddress = EchoUtils.toHexString(property.edt[0])+":"+ EchoUtils.toHexString(property.edt[1])
-                        +":"+EchoUtils.toHexString(property.edt[2])+":"+EchoUtils.toHexString(property.edt[3])
-                        +":"+EchoUtils.toHexString(property.edt[4])+":"+EchoUtils.toHexString(property.edt[5]);
+                String macAddress = EchoUtils.toHexString(property.edt[0]) + ":" + EchoUtils.toHexString(property.edt[1])
+                        + ":" + EchoUtils.toHexString(property.edt[2]) + ":" + EchoUtils.toHexString(property.edt[3])
+                        + ":" + EchoUtils.toHexString(property.edt[4]) + ":" + EchoUtils.toHexString(property.edt[5]);
                 device.setMacAddress(macAddress);
 //                System.out.println("Group: " + device.getClassGroupCode() + "-- Class: " + device.getClassCode() + "-- Instance: " + device.getInstanceCode());
                 try {
@@ -88,7 +90,7 @@ public class HumidityProcess {
                         data.sendMessageToBroker(MqttConnection.getMqttClientPub(),
                                 topicDevices.getTopicForDevice(device.getMacAddress(), device.getClassGroupCode(),
                                         device.getClassCode(), device.getInstanceCode()) + "/data", humiSensor.getMessage());
-                        countPayload ++;
+                        countPayload++;
                         String dev = macAddress + "/" + device.getClassGroupCode() + "/" + device.getClassCode() + "/" + device.getInstanceCode();
                         System.out.println("Payload Humidity: " + countPayload + " ---> " + "Device: " + dev);
                     } else {
@@ -120,6 +122,6 @@ public class HumidityProcess {
                             e.printStackTrace();
                         }
                     }
-                },0, TimeRequest.illuminanceTime);
+                }, 0, TimeRequest.illuminanceTime);
     }
 }

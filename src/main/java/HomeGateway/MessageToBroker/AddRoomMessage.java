@@ -3,9 +3,9 @@ package main.java.HomeGateway.MessageToBroker;
 import org.json.simple.JSONObject;
 
 public class AddRoomMessage {
-    private Integer id;
-    private String name;
-    private long time;
+    private final Integer id;
+    private final String name;
+    private final long time;
 
     public AddRoomMessage(Integer id, String name) {
         this.id = id;

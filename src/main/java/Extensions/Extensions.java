@@ -23,8 +23,8 @@ public class Extensions {
 
     public static int ConvertByteToInt(byte[] b) {
         int value = 0;
-        for(int i = 0; i<b.length; i++){
-            int n = (b[i] < 0 ? (int)b[i] + 256 : (int)b[i]) << (8*i);
+        for (int i = 0; i < b.length; i++) {
+            int n = (b[i] < 0 ? (int) b[i] + 256 : (int) b[i]) << (8 * i);
             value += n;
         }
         return value;
@@ -41,6 +41,7 @@ public class Extensions {
         }
         return i;
     }
+
     public static int ConvertByteToInt(byte b) {
         return (b & 0xFF);
     }
@@ -67,7 +68,7 @@ public class Extensions {
 
     public static String doubleToDate(Double dateDouble) {
         long dateLong = (long) ((double) dateDouble);
-        DateFormat formatter =  new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         Date itemDate = new Date(dateLong);
         return formatter.format(itemDate);
     }
@@ -78,6 +79,7 @@ public class Extensions {
         }
         System.out.println("++++++++++");
     }
+
     public static boolean isJSON(String json) {
         try {
             new JSONObject(json);
@@ -87,12 +89,12 @@ public class Extensions {
         return true;
     }
 
-    public static String getTopicReceiver (String topic){
+    public static String getTopicReceiver(String topic) {
         return topic.substring(0, topic.length() - 1) + "r";
     }
 
     public static String idToString(Integer id) {
-        String stringId = "~" + String.valueOf(id);
+        String stringId = "~" + id;
         return stringId;
     }
 

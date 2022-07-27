@@ -13,8 +13,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CommandMessage {
-    private TopicDevices topicDevices;
-    private CheckReliable checkReliable = new CheckReliable();
+    private final TopicDevices topicDevices;
+    private final CheckReliable checkReliable = new CheckReliable();
 
     public CommandMessage(TopicDevices topicDevices) {
         this.topicDevices = topicDevices;
@@ -32,23 +32,23 @@ public class CommandMessage {
         System.out.println(dev);
         try {
             System.out.println(topicDevices.myDevices.size());
-            for (DeviceObject devices: topicDevices.myDevices) {
+            for (DeviceObject devices : topicDevices.myDevices) {
 
                 if (devices.getMacAddress().equals(MAC)
                         && Extensions.ConvertByteToInt(devices.getClassGroupCode()) == Extensions.ConvertStringToInt(groupCode)
                         && Extensions.ConvertByteToInt(devices.getClassCode()) == Extensions.ConvertStringToInt(classCode)
                         && Extensions.ConvertByteToInt(devices.getInstanceCode()) == Extensions.ConvertStringToInt(instanceCode)) {
-                    String messageParse = message.replaceAll("\\\\", "" );
+                    String messageParse = message.replaceAll("\\\\", "");
                     JSONParser cmdMessage = new JSONParser();
-                    JSONObject objCmdMessage = (JSONObject) cmdMessage.parse(messageParse.substring(1, messageParse.length()-1));
-                    for (Object obj: objCmdMessage.keySet()) {
+                    JSONObject objCmdMessage = (JSONObject) cmdMessage.parse(messageParse.substring(1, messageParse.length() - 1));
+                    for (Object obj : objCmdMessage.keySet()) {
                         // Get Epc~Key and Edt~Value from JsonMessage
                         String epcStr = obj.toString();
                         String edtStr = objCmdMessage.get(obj).toString();
 //                        System.out.println("EPC+EDT: "+ epcStr +" "+edtStr);
                         //Convert epc and edt from string type to byte and byte respectively
                         long edtLong = Long.parseLong(edtStr, 16);
-                        int epcInt = Integer.parseInt(epcStr,16);
+                        int epcInt = Integer.parseInt(epcStr, 16);
                         byte[] edtByteArr = BigInteger.valueOf(edtLong).toByteArray();
                         byte epcByte = Integer.valueOf(epcInt).byteValue();
                         System.out.println("EDT" + edtByteArr);
@@ -84,7 +84,7 @@ public class CommandMessage {
                                                     e.printStackTrace();
                                                 }
                                             }
-                                        },0, 1000);
+                                        }, 0, 1000);
                             }
                         }, timeCheck);
 

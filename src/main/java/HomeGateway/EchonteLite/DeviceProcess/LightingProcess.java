@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 public class LightingProcess {
     private int countPayload = 0;
-    private DataTransfer data = new DataTransfer();
+    private final DataTransfer data = new DataTransfer();
 
     public synchronized void lightingDevice(GeneralLighting device, TopicDevices topicDevices, CheckReliable checkReliable) {
         LightingDevicePayload lightingPayload = new LightingDevicePayload();
@@ -79,9 +79,9 @@ public class LightingProcess {
                     lightingPayload.alertSucessWrong();
                     return;
                 }
-                String macAddress = EchoUtils.toHexString(property.edt[0])+":"+ EchoUtils.toHexString(property.edt[1])
-                        +":"+EchoUtils.toHexString(property.edt[2])+":"+EchoUtils.toHexString(property.edt[3])
-                        +":"+EchoUtils.toHexString(property.edt[4])+":"+EchoUtils.toHexString(property.edt[5]);
+                String macAddress = EchoUtils.toHexString(property.edt[0]) + ":" + EchoUtils.toHexString(property.edt[1])
+                        + ":" + EchoUtils.toHexString(property.edt[2]) + ":" + EchoUtils.toHexString(property.edt[3])
+                        + ":" + EchoUtils.toHexString(property.edt[4]) + ":" + EchoUtils.toHexString(property.edt[5]);
                 device.setMacAddress(macAddress);
 
                 try {
@@ -94,9 +94,9 @@ public class LightingProcess {
                         data.sendMessageToBroker(MqttConnection.getMqttClientPub(),
                                 topicDevices.getTopicForDevice(device.getMacAddress(), device.getClassGroupCode(),
                                         device.getClassCode(), device.getInstanceCode()) + "/data", lightingPayload.getMessage());
-                        countPayload ++;
+                        countPayload++;
                         //System.out.println("Payload Lighting Device: " + tid + " ---> " + "Device: " + dev +
-                              //      " --- " + "Time: " + Extensions.ConvertDateToString(Calendar.getInstance()));
+                        //      " --- " + "Time: " + Extensions.ConvertDateToString(Calendar.getInstance()));
                     } else {
                         //System.out.println("Class Code: " + device.getClassCode());
                         //send request to register new device to MQTT Broker
@@ -125,7 +125,7 @@ public class LightingProcess {
                             short tidRequest = device.get().reqGetIlluminanceLevel().reqGetInstallationLocation().
                                     reqGetOperationStatus().reqGetMacAddress().send().getTID();
 
-                            String dev = device.getMacAddress() + "/" + device.getClassGroupCode() + "/" + device.getClassCode() + "/" +device.getInstanceCode() + "~" + tidRequest;
+                            String dev = device.getMacAddress() + "/" + device.getClassGroupCode() + "/" + device.getClassCode() + "/" + device.getInstanceCode() + "~" + tidRequest;
                             checkReliable.addDeviceReceive(dev, "sent");
 
                             //Reliable transfer
@@ -159,6 +159,6 @@ public class LightingProcess {
                             e.printStackTrace();
                         }
                     }
-                },0, TimeRequest.lightingDevice);
+                }, 0, TimeRequest.lightingDevice);
     }
 }

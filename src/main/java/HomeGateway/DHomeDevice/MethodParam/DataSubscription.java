@@ -1,9 +1,9 @@
 package main.java.HomeGateway.DHomeDevice.MethodParam;
 
 public class DataSubscription {
-    private String token;
-    private String userId;
-    private String userPass;
+    private final String token;
+    private final String userId;
+    private final String userPass;
 
     public DataSubscription(String token, String userId, String userPass) {
         this.token = token;
