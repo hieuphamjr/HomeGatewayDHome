@@ -1,6 +1,5 @@
 package main.java.HomeGateway.DHomeDevice.DHomeObject;
 
-import java.util.Date;
 import java.util.HashMap;
 
 public class Device {

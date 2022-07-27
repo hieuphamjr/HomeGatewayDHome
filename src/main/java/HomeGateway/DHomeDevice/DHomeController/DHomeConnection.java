@@ -2,8 +2,8 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 import com.keysolutions.ddpclient.DDPClient;
 import main.java.HomeGateway.DHomeDevice.DHome;
-import main.java.HomeGateway.DHomeDevice.MethodParam.DataSubscription;
 import main.java.HomeGateway.DHomeDevice.MethodParam.Com;
+import main.java.HomeGateway.DHomeDevice.MethodParam.DataSubscription;
 
 import java.net.URISyntaxException;
 
@@ -35,20 +35,12 @@ public class DHomeConnection {
         }
     }
 
-    public int subscribe(DHomeClientObserver obs){
-        System.out.println("Subscribed to DHome data");
+    public void subscribe(DHomeClientObserver obs) throws InterruptedException {
         Object[] dataSubscription = new Object[1];
         dataSubscription[0] = new DataSubscription("MZfihHlV6C", "1", "123456");
-        return ddpClient.subscribe("data", dataSubscription, obs);
+        ddpClient.subscribe("data", dataSubscription, obs);
+        Thread.sleep(200);
+        System.out.println("Subscribed to DHome data");
     }
 
-    public void unsubscribe(DHomeClientObserver obs) {
-        System.out.println("Unsubscribed to DHome data");
-        ddpClient.unsubscribe(this.subscribe(obs));
-    }
-    public void turnOn (Integer id){
-        Object[] param = new Object[1];
-        param[0] = new Com(id, "on");
-        getDdpClient().call("com", param);
-    }
 }

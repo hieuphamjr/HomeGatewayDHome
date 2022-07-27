@@ -1,8 +1,5 @@
 package com.sonycsl.echo.protocol;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
@@ -11,6 +8,9 @@ import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.eoj.profile.NodeProfile;
 import com.sonycsl.echo.node.EchoNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 受信したFrameは一度キューに保存し，EchoSocketのreceive関数で処理を行う．

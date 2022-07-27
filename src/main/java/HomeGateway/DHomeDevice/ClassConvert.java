@@ -3,7 +3,6 @@ package main.java.HomeGateway.DHomeDevice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import main.java.Extensions.Extensions;
 import main.java.HomeGateway.DHomeDevice.DHomeObject.Device;
 import main.java.HomeGateway.DHomeDevice.DHomeObject.Group;
 

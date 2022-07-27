@@ -22,7 +22,6 @@ import com.sonycsl.echo.protocol.EchoTCPProtocol;
 import com.sonycsl.echo.protocol.EchoUDPProtocol;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public final class EchoSocket {

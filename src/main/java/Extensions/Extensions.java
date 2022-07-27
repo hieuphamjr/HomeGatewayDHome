@@ -2,8 +2,6 @@ package main.java.Extensions;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import main.java.HomeGateway.DHomeDevice.DHomeObject.Device;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;

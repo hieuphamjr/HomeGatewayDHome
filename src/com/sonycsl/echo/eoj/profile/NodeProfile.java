@@ -15,23 +15,15 @@
  */
 package com.sonycsl.echo.eoj.profile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
-import com.sonycsl.echo.eoj.profile.ProfileObject.Getter;
-import com.sonycsl.echo.eoj.profile.ProfileObject.Informer;
-import com.sonycsl.echo.eoj.profile.ProfileObject.Setter;
-import com.sonycsl.echo.node.EchoNode;
+
+import java.util.HashSet;
+import java.util.Iterator;
 
 public abstract class NodeProfile extends ProfileObject {
 	@SuppressWarnings("unused")

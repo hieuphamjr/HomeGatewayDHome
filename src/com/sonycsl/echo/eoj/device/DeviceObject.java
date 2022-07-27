@@ -20,9 +20,6 @@ import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
-import main.java.HomeGateway.EchonteLite.CheckReliable;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class DeviceObject extends EchoObject {
 

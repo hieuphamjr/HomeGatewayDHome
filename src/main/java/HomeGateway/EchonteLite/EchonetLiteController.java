@@ -3,16 +3,12 @@ package main.java.HomeGateway.EchonteLite;
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.eoj.device.housingfacilities.GeneralLighting;
-import com.sonycsl.echo.eoj.device.sensor.HumiditySensor;
 import com.sonycsl.echo.eoj.device.sensor.IlluminanceSensor;
-import com.sonycsl.echo.eoj.device.sensor.TemperatureSensor;
 import com.sonycsl.echo.eoj.profile.NodeProfile;
 import com.sonycsl.echo.processing.defaults.DefaultController;
 import com.sonycsl.echo.processing.defaults.DefaultNodeProfile;
 import main.java.HomeGateway.EchonteLite.DeviceProcess.LightingProcess;
-import main.java.HomeGateway.EchonteLite.SensorsProcess.HumidityProcess;
 import main.java.HomeGateway.EchonteLite.SensorsProcess.IlluminanceProcess;
-import main.java.HomeGateway.EchonteLite.SensorsProcess.TemperatureProcess;
 import main.java.HomeGateway.MqttBroker.TopicDevices;
 
 import java.io.IOException;

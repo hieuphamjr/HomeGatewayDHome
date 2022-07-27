@@ -2,17 +2,11 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 import com.keysolutions.ddpclient.DDPClient;
 import com.keysolutions.ddpclient.DDPListener;
-import main.java.HomeGateway.MessageToBroker.ControlDeviceMessage;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Logger;
 
 import static java.lang.Integer.parseInt;
-import static main.java.HomeGateway.ConfigHomeGateway.controlTopic;
-import static main.java.HomeGateway.Main.clientPub;
 
 /**
  * @author Hieu

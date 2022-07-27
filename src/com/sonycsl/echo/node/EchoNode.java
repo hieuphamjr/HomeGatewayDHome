@@ -15,29 +15,27 @@
  */
 package com.sonycsl.echo.node;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.eoj.device.airconditioner.*;
-import com.sonycsl.echo.eoj.device.audiovisual.*;
+import com.sonycsl.echo.eoj.device.audiovisual.Display;
+import com.sonycsl.echo.eoj.device.audiovisual.Television;
 import com.sonycsl.echo.eoj.device.cookinghousehold.*;
-import com.sonycsl.echo.eoj.device.health.*;
+import com.sonycsl.echo.eoj.device.health.Weighing;
 import com.sonycsl.echo.eoj.device.housingfacilities.*;
-import com.sonycsl.echo.eoj.device.managementoperation.*;
+import com.sonycsl.echo.eoj.device.managementoperation.Controller;
+import com.sonycsl.echo.eoj.device.managementoperation.Switch;
 import com.sonycsl.echo.eoj.device.sensor.*;
-import com.sonycsl.echo.eoj.profile.*;
-import com.sonycsl.echo.eoj.profile.NodeProfile.Proxy;
+import com.sonycsl.echo.eoj.profile.NodeProfile;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public final class EchoNode {

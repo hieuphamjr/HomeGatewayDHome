@@ -7,11 +7,7 @@ import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.EchoUtils;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.NetworkInterface;
-import java.net.SocketException;
+import java.net.*;
 import java.util.Enumeration;
 
 public class EchoUDPProtocol extends EchoProtocol {

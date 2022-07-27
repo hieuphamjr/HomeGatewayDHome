@@ -12,6 +12,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="HomeGateway_2" />
         <module name="HomeGateway" />
+        <module name="HomeGatewayDHome" />
       </profile>
     </annotationProcessing>
   </component>

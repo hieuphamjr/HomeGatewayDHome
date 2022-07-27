@@ -14,7 +14,9 @@ import org.json.simple.parser.JSONParser;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static main.java.Extensions.Extensions.*;
 import static main.java.HomeGateway.ConfigHomeGateway.*;
@@ -30,7 +32,7 @@ public class Main {
         DHomeConnection conn = new DHomeConnection();
         conn.connectDDP(dhome, obs);
         conn.subscribe(obs);
-        Thread.sleep(1000);
+//        Thread.sleep(200);
 
         DHomeController controller = new DHomeController(conn);
         mqttClient = new MqttClient(brokerURL, "subClient");

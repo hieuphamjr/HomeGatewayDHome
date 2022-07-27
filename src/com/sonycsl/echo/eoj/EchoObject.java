@@ -15,25 +15,15 @@
  */
 package com.sonycsl.echo.eoj;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
-import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
-import com.sonycsl.echo.EchoProperty;
-import com.sonycsl.echo.EchoSocket;
-import com.sonycsl.echo.EchoUtils;
+import com.sonycsl.echo.*;
 import com.sonycsl.echo.eoj.profile.NodeProfile;
-import com.sonycsl.echo.exception.InvalidPropertyException;
 import com.sonycsl.echo.node.EchoNode;
 import main.java.HomeGateway.EchonteLite.CheckReliable;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 
 public abstract class EchoObject {

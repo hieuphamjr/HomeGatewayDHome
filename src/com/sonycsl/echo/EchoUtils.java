@@ -15,19 +15,17 @@
  */
 package com.sonycsl.echo;
 
+import com.sonycsl.echo.eoj.EchoObject;
+import com.sonycsl.echo.eoj.device.DeviceObject;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
-
-import com.sonycsl.echo.eoj.EchoObject;
-import com.sonycsl.echo.eoj.device.DeviceObject;
 
 
 

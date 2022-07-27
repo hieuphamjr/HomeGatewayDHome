@@ -15,19 +15,11 @@
  */
 package com.sonycsl.echo.eoj.profile;
 
-import java.util.HashSet;
-import java.util.Iterator;
-
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.EchoUtils;
 import com.sonycsl.echo.eoj.EchoObject;
-import com.sonycsl.echo.eoj.EchoObject.Getter;
-import com.sonycsl.echo.eoj.EchoObject.Informer;
-import com.sonycsl.echo.eoj.device.DeviceObject.Setter;
-import com.sonycsl.echo.node.EchoNode;
 
 public abstract class ProfileObject extends EchoObject {
 

@@ -3,14 +3,16 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 import com.keysolutions.ddpclient.DDPClient;
 import main.java.HomeGateway.DHomeDevice.MethodParam.AddDevice;
+import main.java.HomeGateway.DHomeDevice.MethodParam.AddGroup;
 import main.java.HomeGateway.DHomeDevice.MethodParam.Com;
 import main.java.HomeGateway.DHomeDevice.MethodParam.RemoveDSwitch;
-import main.java.HomeGateway.DHomeDevice.MethodParam.AddGroup;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
 
 import static main.java.HomeGateway.ConfigHomeGateway.addDeviceTopic;
 import static main.java.HomeGateway.Main.clientPub;

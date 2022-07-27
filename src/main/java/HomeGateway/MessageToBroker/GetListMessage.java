@@ -2,9 +2,6 @@ package main.java.HomeGateway.MessageToBroker;
 
 import org.json.simple.JSONObject;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class GetListMessage {

@@ -1,7 +1,8 @@
 package com.sonycsl.echo.processing.defaults;
-import java.io.IOException;
 
 import com.sonycsl.echo.eoj.device.housingfacilities.PowerDistributionBoardMetering;
+
+import java.io.IOException;
 
 
 public class DefaultPowerDistributionBoardMetering extends PowerDistributionBoardMetering {

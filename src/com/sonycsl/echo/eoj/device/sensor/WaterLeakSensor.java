@@ -16,12 +16,10 @@
 package com.sonycsl.echo.eoj.device.sensor;
 
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
-import com.sonycsl.echo.node.EchoNode;
 
 public abstract class WaterLeakSensor extends DeviceObject {
 	

@@ -1,8 +1,8 @@
 package com.sonycsl.echo.processing.defaults;
 
-import java.io.IOException;
-
 import com.sonycsl.echo.eoj.device.airconditioner.HomeAirConditioner;
+
+import java.io.IOException;
 
 public class DefaultHomeAirConditioner extends HomeAirConditioner {
 

@@ -1,8 +1,8 @@
 package com.sonycsl.echo.processing.defaults;
 
-import java.io.IOException;
-
 import com.sonycsl.echo.eoj.profile.NodeProfile;
+
+import java.io.IOException;
 
 public class DefaultNodeProfile extends NodeProfile {
 	
