@@ -1,21 +1,10 @@
 package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 
-import com.keysolutions.ddpclient.DDPClient;
 import main.java.HomeGateway.DHomeDevice.MethodParam.AddDevice;
 import main.java.HomeGateway.DHomeDevice.MethodParam.AddGroup;
 import main.java.HomeGateway.DHomeDevice.MethodParam.Com;
 import main.java.HomeGateway.DHomeDevice.MethodParam.RemoveDSwitch;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-
-import static main.java.HomeGateway.ConfigHomeGateway.addDeviceTopic;
-import static main.java.HomeGateway.Main.clientPub;
 
 public class DHomeController {
     private final DHomeConnection mDHomeConnection;
@@ -56,31 +45,7 @@ public class DHomeController {
     }
 
     public void addSwitch() throws InterruptedException {
-        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{}, new DHomeClientObserver() {
-            @Override
-            public void update(Observable client, Object msg) {
-                if (msg instanceof Map<?, ?>) {
-                    Map<String, Object> jsonFields = (Map<String, Object>) msg;
-                    String msgtype = (String) jsonFields.get(DDPClient.DdpMessageField.MSG);
-
-                    if (msgtype.equals(DDPClient.DdpMessageType.ADDED)) {
-                        String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
-                        if (!mCollections.containsKey(collName)) {
-                            mCollections.put(collName, new HashMap<>());
-                        }
-                        Map<String, Object> collection = mCollections.get(collName);
-                        String id = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-                        collection.put(id, jsonFields.get(DDPClient.DdpMessageField.FIELDS));
-                    }
-                    MqttMessage mqttMessage = new MqttMessage(jsonFields.get(DDPClient.DdpMessageField.FIELDS).toString().getBytes(StandardCharsets.UTF_8));
-                    try {
-                        clientPub.publish(addDeviceTopic, mqttMessage);
-                    } catch (MqttException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+        mDHomeConnection.getDdpClient().call("turnOnPairingMode", new Object[]{});
         Thread.sleep(1000);
     }
 

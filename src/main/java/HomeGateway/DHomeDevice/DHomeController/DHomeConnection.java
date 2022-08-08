@@ -30,7 +30,7 @@ public class DHomeConnection {
         ddpClient = new DDPClient(dhome.getHost(), dhome.getDdpPort());
         ddpClient.addObserver(obs);
         ddpClient.connect();
-        Thread.sleep(500);
+        Thread.sleep(200);
         System.out.println(ddpClient.getState() + " to controller server " + dhome.getHost() + ":" + dhome.getDdpPort());
         subscribe(obs);
     }
@@ -51,7 +51,7 @@ public class DHomeConnection {
         dataSubscription[0] = new DataSubscription("MZfihHlV6C", "1", "123456");
         ddpClient.subscribe("data", dataSubscription, obs);
         Thread.sleep(200);
-        System.out.println("Subscribed to DHome data");
+        System.out.println("Subscribed to controller's data");
     }
 
 }

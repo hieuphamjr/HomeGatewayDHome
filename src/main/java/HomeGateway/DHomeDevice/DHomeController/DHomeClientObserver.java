@@ -2,11 +2,21 @@ package main.java.HomeGateway.DHomeDevice.DHomeController;
 
 import com.keysolutions.ddpclient.DDPClient;
 import com.keysolutions.ddpclient.DDPListener;
+import main.java.Extensions.Extensions;
+import main.java.HomeGateway.MessageToBroker.ControlDeviceMessage;
+import main.java.HomeGateway.MessageToBroker.NewDeviceMessage;
+import main.java.HomeGateway.MqttBroker.MqttClientPub;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Logger;
 
 import static java.lang.Integer.parseInt;
+import static main.java.Extensions.Extensions.getTopicReceiver;
+import static main.java.HomeGateway.ConfigHomeGateway.controlTopic;
+import static main.java.HomeGateway.ConfigHomeGateway.newDeviceTopic;
 
 /**
  * @author Hieu
@@ -38,9 +48,16 @@ public class DHomeClientObserver extends DDPListener implements Observer {
     public String mReadySubscription;
     public String mPingId;
 
+    private MqttClientPub mqttClientPub;
+
     public DHomeClientObserver() {
         mDdpState = DDPSTATE.Disconnected;
         mCollections = new HashMap<>();
+        try {
+            mqttClientPub = new MqttClientPub();
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -107,15 +124,23 @@ public class DHomeClientObserver extends DDPListener implements Observer {
             if (msgtype.equals(DDPClient.DdpMessageType.ADDED)) {
                 String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
                 if (!mCollections.containsKey(collName)) {
-//                    // add new collection
-//                    System.out.println("Added collection " + collName);
                     mCollections.put(collName, new HashMap<>());
                 }
                 Map<String, Object> collection = mCollections.get(collName);
                 String id = (String) jsonFields.get(DDPClient.DdpMessageField.ID);
-//                System.out.println("Added " + collName + id + " to collection " + collName);
                 collection.put(id, jsonFields.get(DDPClient.DdpMessageField.FIELDS));
-//                dumpMap((Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS));
+                if (jsonFields.get(DDPClient.DdpMessageField.COLLECTION).toString().equals("device")) {
+                    Object device = jsonFields.get(DDPClient.DdpMessageField.FIELDS);
+                    NewDeviceMessage message = new NewDeviceMessage(device);
+                    MqttMessage mqttMessage = new MqttMessage(message.createMessage().getBytes(StandardCharsets.UTF_8));
+                    mqttMessage.setQos(0);
+                    try {
+                        mqttClientPub.getMqttClientPub().publish(newDeviceTopic, mqttMessage);
+                        System.out.println("Published message to Broker, " + newDeviceTopic + " at " + System.currentTimeMillis());
+                    } catch (MqttException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
             if (msgtype.equals(DDPClient.DdpMessageType.REMOVED)) {
                 String collName = (String) jsonFields.get(DDPClient.DdpMessageField.COLLECTION);
@@ -144,6 +169,24 @@ public class DHomeClientObserver extends DDPListener implements Observer {
                                 String fieldname = field.getKey();
                                 doc.put(fieldname, field.getValue());
                             }
+                            if (collName.equals("device")) {
+                                int deviceId = Extensions.stringToId(docId);
+                                double status = Double.parseDouble(fields.get("status").toString());
+                                int devStatus = 0;
+                                if (status == 49.0) {
+                                    devStatus = 1;
+                                }
+                                ControlDeviceMessage message = new ControlDeviceMessage(deviceId, devStatus);
+                                MqttMessage mqttMessage = new MqttMessage(message.createMessage().getBytes(StandardCharsets.UTF_8));
+                                mqttMessage.setQos(0);
+//                                try {
+//                                    String topic = getTopicReceiver(controlTopic);
+//                                    mqttClientPub.getMqttClientPub().publish(topic, mqttMessage);
+//                                    System.out.println("Published message to Broker, topic: " + topic + " at " + System.currentTimeMillis());
+//                                } catch (MqttException e) {
+//                                    throw new RuntimeException(e);
+//                                }
+                            }
                         }
                         // take care of clearing fields
                         List<String> clearfields = ((List<String>) jsonFields.get(DDPClient.DdpMessageField.CLEARED));
@@ -153,15 +196,6 @@ public class DHomeClientObserver extends DDPListener implements Observer {
                             }
                         }
                     }
-//                    Map<String, Object> fields = (Map<String, Object>) jsonFields.get(DDPClient.DdpMessageField.FIELDS);
-//                    String status = fields.get("status").toString();
-//                    int newStatus = status == "48" ? 0 : 1;
-//                    ControlDeviceMessage publishMessage = new ControlDeviceMessage(parseInt(docId), newStatus);
-//                    try {
-//                        clientPub.publish(controlTopic, new MqttMessage(publishMessage.createMessage().getBytes(StandardCharsets.UTF_8)));
-//                    } catch (MqttException e) {
-//                        e.printStackTrace();
-//                    }
                 } else {
                     LOGGER.warning("Received invalid changed msg for collection " + collName);
                 }

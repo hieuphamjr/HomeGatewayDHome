@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static main.java.HomeGateway.ConfigHomeGateway.controlTopic;
-import static main.java.HomeGateway.Main.clientPub;
 
 public class Extensions {
     public static float ConvertByteToFloat(byte[] b) {
@@ -98,6 +97,12 @@ public class Extensions {
         return stringId;
     }
 
+    public static int stringToId(String id) {
+        id = id.substring(1, id.length());
+        int newId = Integer.parseInt(id);
+        return newId;
+    }
+
     public static List getList(HashMap<String, Object> map) {
         List list = new ArrayList();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -109,8 +114,4 @@ public class Extensions {
         return list;
     }
 
-    public static void clientPublish(String topic, MqttMessage message) throws MqttException {
-        clientPub.publish(topic.substring(0, controlTopic.length() - 1) + "r", message);
-        System.out.println("Publish message to Broker, topic: " + topic);
-    }
 }
